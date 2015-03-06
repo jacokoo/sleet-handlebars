@@ -1,0 +1,26 @@
+{
+  "name": "sleet-handlebars",
+  "version": "0.0.0",
+  "description": "Sleet extension for Handlebars",
+  "main": "lib/sleet-handlebars",
+  "bin": {
+    "sleet-riot": "bin/sleet-handlebars"
+  },
+  "author": "Jaco Koo <jaco.koo@guyong.in>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JacoKoo/sleet-handlebars.git"
+  },
+  "dependencies": {
+    "sleet": "^0.0.5"
+  },
+  "devDependencies": {
+    "coffee-script": "^1.9.0",
+    "gulp": "^3.8.11",
+    "gulp-clean": "^0.3.1",
+    "gulp-coffee": "^2.3.1",
+    "gulp-coffeelint": "^0.4.0",
+    "gulp-uglify": "^1.1.0"
+  }
+}
