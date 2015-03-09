@@ -1,8 +1,10 @@
+p = require './package.json'
 gulp = require 'gulp'
 clean = require 'gulp-clean'
 coffee = require 'gulp-coffee'
 coffeelint = require 'gulp-coffeelint'
 uglify = require 'gulp-uglify'
+template = require 'gulp-template'
 
 gulp.task 'clean', ->
     gulp.src 'lib', read: false
@@ -13,6 +15,7 @@ gulp.task 'build', ['clean'], ->
         .pipe coffeelint '.coffeelint'
         .pipe coffeelint.reporter()
         .pipe coffee bare: true
+        .pipe template version: p.version
         .pipe uglify()
         .pipe gulp.dest('lib')
 

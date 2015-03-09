@@ -21,6 +21,7 @@ module.exports = class BlockHelper extends Tag
     getName: -> @name
 
     generateAttribute: ({name, value}, context) ->
+        value or= []
         context.push(' ')
         if name.type is 'identifier'
             context.push name.value

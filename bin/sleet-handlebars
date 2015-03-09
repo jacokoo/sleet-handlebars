@@ -1,37 +1,7 @@
 #!/usr/bin/env node
 
-var path = require('path'), i,
-    fs   = require('fs'),
-    lib  = path.join(path.dirname(fs.realpathSync(__filename)), '../lib'),
-    blockHelpers = ['if', 'unless', 'each', 'with', 'compare', 'view', 'layout'],
-    inlineHelpers = [],
-    DefaultTag = require(lib + '/tags/tag'),
-    BlockHelper = require(lib + '/tags/block-helper'),
-    InlineHelper = require(lib + '/tags/inline-helper'),
-    UnescapedInlineHelper = require(lib + '/tags/unescaped-inline-helper');
+var path = require('path');
+var fs   = require('fs');
+var lib  = path.join(path.dirname(fs.realpathSync(__filename)), '../lib');
 
-if(process.argv.indexOf('-e') < 0 && process.argv.indexOf('--extension') < 0) {
-    process.argv.push('-e');
-    process.argv.push('html');
-}
-
-var tags = {
-    else: require(lib + '/tags/else'),
-    echo: require(lib + '/tags/echo'),
-    '@echo': require(lib + '/tags/unescaped-echo')
-};
-
-for (i = 0; i < blockHelpers.length; i ++) {
-    tags[blockHelpers[i]] = BlockHelper;
-}
-for (i = 0; i < inlineHelpers.length; i ++) {
-    tags[inlineHelpers[i]] = InlineHelper;
-    tags['@' + inlineHelpers[i]] = UnescapedInlineHelper;
-}
-
-var predicts = {
-    if: require(lib + '/predicts/if'),
-    unless: require(lib + '/predicts/unless')
-};
-
-require('sleet/lib/command').run({tags: tags, predicts: predicts, defaultTag: DefaultTag});
+require(lib + '/command').run();
