@@ -3,6 +3,7 @@ Handlebars = require 'handlebars'
 DefaultTag = require './tags/tag'
 ElseTag = require './tags/else'
 EchoTag = require './tags/echo'
+UnescapedEchoTag = require './tags/unescaped-echo'
 BlockHelper = require './tags/block-helper'
 InlineHelper = require './tags/inline-helper'
 UnescapedInlineHelper = require './tags/unescaped-inline-helper'
@@ -15,6 +16,7 @@ inlineHelpers = []
 tags =
     else: ElseTag
     echo: EchoTag
+    '@echo': UnescapedEchoTag
 
 predicts =
     if: If
