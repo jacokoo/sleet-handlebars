@@ -21,6 +21,7 @@ predicts =
     unless: Unless
 
 exports.getCompileOptions = (options = {}) ->
+    options.defaultTag = DefaultTag
     bs = blockHelpers.concat options.blocks or []
     ibs = inlineHelpers.concat options.inlineBlocks or []
 
