@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "handlebars": "^3.0.0",
-    "sleet": "^0.0.6",
+    "sleet": "0.0.x",
     "yargs": "^3.4.5"
   },
   "devDependencies": {
