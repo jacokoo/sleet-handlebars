@@ -37,7 +37,8 @@ module.exports = class BlockHelper extends Tag
     generateClose: (context) ->
         return if @selfClosing()
         @generateElse context
-        super
+        context.eol().indent(@indent) if @elseTag or (@childrenContext.indented and not @options.haveInlineChild)
+        @generateTagEnd context
 
     generateTagEnd: (context) ->
         context.push(@tagCloseStart).push(@getName()).push(@tagCloseEnd)
