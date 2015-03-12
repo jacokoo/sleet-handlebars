@@ -10,18 +10,12 @@ module.exports = class BlockHelper extends Tag
         super
         @elseTag = @findElse()
 
-    generateOpenStart: (context) ->
-        if @isInline
-            context.pop()
-        else
-            context.indent(@indent)
-
+    generateTagStart: (context) ->
         context.push(@tagOpenStart).push(@getName())
 
     getName: -> @name
 
     generateAttribute: ({name, value}, context) ->
-        value or= []
         context.push(' ')
         if name.type is 'identifier'
             context.push name.value
@@ -32,26 +26,21 @@ module.exports = class BlockHelper extends Tag
 
         return if value.length is 0
 
-        values = (if item.type is 'quoted' then '"' + item.value + '"' else item.value for item in value)
+        values = for item in value
+            if item.type is 'quoted' then '"' + item.value + '"' else item.value
+
         context.push('=').push(values.join '')
 
     generateOpenEnd: (context) ->
         context.push @tagOpenEnd
-        context.eol() if @needNewLineTokenAfterTagOpen() or @selfClosing()
 
     generateClose: (context) ->
         return if @selfClosing()
-
         @generateElse context
+        super
 
-        context.indent(@indent) if @needNewLineTokenAfterTagOpen() and not @haveInlineChild
-        context.pop() if @haveInlineChild
-        context.push(@tagCloseStart).push(@getName()).push(@tagCloseEnd).eol()
-
-    needNewLineTokenAfterTagOpen: ->
-        result = super
-        return true if result
-        return !!@elseTag
+    generateTagEnd: (context) ->
+        context.push(@tagCloseStart).push(@getName()).push(@tagCloseEnd)
 
     generateElse: (context) ->
         return unless @elseTag

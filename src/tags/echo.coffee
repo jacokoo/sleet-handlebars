@@ -1,15 +1,8 @@
-{Tag} = require 'sleet'
+{Echo} = require 'sleet'
 
-module.exports = class EchoTag extends Tag
+module.exports = class EchoTag extends Echo
     tagOpenStart: '{{'
     tagOpenEnd: '}}'
-    generate: (context) ->
-        if @isInline then context.pop() else context.indent(@indent)
-
-        @setAttribute item.name, item.value for item in group.attributes for group in @attributeGroups
-        @generateAttribute item.name, item.value, context for item in @attributes
-
-        context.eol()
 
     wrap: (context, value) ->
         context.push(@tagOpenStart).push(value).push(@tagOpenEnd)

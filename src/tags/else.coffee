@@ -6,6 +6,6 @@ module.exports = class ElseTag extends Tag
         return unless @options.__paired__
         @options.__used__ = true
 
-        context.indent(@indent).push('{{else}}').eol()
+        context.indent(@indent).push('{{else}}')
         for item in @children when not @isString(item)
             context.createTag(item, @).generate(context)
