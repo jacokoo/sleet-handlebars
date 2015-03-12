@@ -1,6 +1,6 @@
 {
   "name": "sleet-handlebars",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Sleet extension for Handlebars",
   "main": "lib/sleet-handlebars",
   "bin": {
