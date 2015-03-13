@@ -9,7 +9,7 @@ InlineHelper = require './tags/inline-helper'
 UnescapedInlineHelper = require './tags/unescaped-inline-helper'
 If = require './predicts/if'
 Unless = require './predicts/unless'
-
+SelfClosingTag = require './tags/self-closing-tag'
 blockHelpers = ['if', 'unless', 'each', 'with']
 inlineHelpers = []
 
@@ -21,6 +21,12 @@ tags =
 predicts =
     if: If
     unless: Unless
+
+selfClosingTags = [
+    'area', 'base', 'br', 'col', 'command'
+    'embed', 'hr', 'img', 'input', 'keygen'
+    'link', 'meta', 'param', 'source', 'track', 'wbr'
+]
 
 exports.getCompileOptions = (options = {}) ->
     options.defaultTag = DefaultTag
@@ -35,6 +41,7 @@ exports.getCompileOptions = (options = {}) ->
     options.tags["@#{item}"] = UnescapedInlineHelper for item in ibs when not options.tags["@#{item}"]
 
     options.tags[key] = value for key, value of tags when not options.tags[key]
+    options.tags[key] = SelfClosingTag for key in selfClosingTags when not options.tags[key]
     options.predicts[key] = value for key, value of predicts when not options.predicts[key]
 
     options
