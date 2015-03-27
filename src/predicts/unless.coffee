@@ -1,8 +1,4 @@
-{Predict} = require 'sleet'
+If = require './if'
 
-module.exports = class Unless extends Predict
+module.exports = class Unless extends If
     tagName: 'unless'
-    generate: (context) ->
-        context.push " {{##{@tagName} #{@content}}}"
-        @tag.generateAttribute(item, context) for item in @attributes
-        context.push "{{/#{@tagName}}}"
