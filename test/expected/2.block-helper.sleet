@@ -1,0 +1,20 @@
+if(active)
+    p active
+else
+    p inactive
+
+if(active) active
+else inactive
+
+ul
+    each(items)
+        li > echo(name)
+    else
+        | no items
+
+a > unless(completed) not complete
+
+compare(status 'eq' 1)
+    p status 1
+else
+    p status else

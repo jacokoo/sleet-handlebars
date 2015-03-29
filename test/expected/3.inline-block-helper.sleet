@@ -1,0 +1,4 @@
+date(a 1 true)
+@date(a 1 true 'a')
+
+a > date(createTime 'yyyy-MM-dd')

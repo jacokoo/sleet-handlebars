@@ -1,0 +1,21 @@
+{{#if active}}
+    <p>active</p>
+{{else}}
+    <p>inactive</p>
+{{/if}}
+{{#if active}}active
+{{else}}inactive
+{{/if}}
+<ul>
+    {{#each items}}
+        <li>{{name}}</li>
+    {{else}}
+        no items
+    {{/each}}
+</ul>
+<a>{{#unless completed}}not complete{{/unless}}</a>
+{{#compare status "eq" 1}}
+    <p>status 1</p>
+{{else}}
+    <p>status else</p>
+{{/compare}}

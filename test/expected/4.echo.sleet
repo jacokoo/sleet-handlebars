@@ -1,0 +1,9 @@
+echo(name)
+echo(name "name")
+@echo(name)
+@echo('name' name)
+
+a > echo(name)
+a
+    echo(name)
+a + echo(name)
