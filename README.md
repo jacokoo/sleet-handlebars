@@ -4,7 +4,7 @@ Sleet Handlebars is [Sleet](https://github.com/JacoKoo/sleetjs) extension that c
 
 ## Resources
 * [Sleet](https://github.com/JacoKoo/sleetjs) Sleetjs is a litte indent-based language that compiles into HTML/XML.
-* [Atom-Sleet](https://github.com/JacoKoo/atom-sleet) Sleet and Sleet Handlebars plugin(Syntax highlight, Compile on save, Preview) for Atom.
+* [Atom-Sleet](https://github.com/JacoKoo/atom-sleet) Sleet and Sleet Handlebars plugin(Syntax highlight, Compile on save, Preview) for [Atom](https://atom.io).
 * [Handlebars-Sleet](https://github.com/JacoKoo/handlebars-sleet) Convert exist HTML / HBS(Handlebars template) files to Sleet
 
 ## Installation
