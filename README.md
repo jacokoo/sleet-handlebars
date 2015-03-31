@@ -1,5 +1,6 @@
 # Sleet Handlebars
-Sleet Handlebars is [Sleet](https://github.com/JacoKoo/sleetjs) extension that compiles Sleet file to Handlebars template
+Sleet Handlebars is [Sleet](https://github.com/JacoKoo/sleetjs) extension that compiles Sleet file to 
+[Handlebars](http://handlebarsjs.com) template
 
 ## Resources
 * [Sleet](https://github.com/JacoKoo/sleetjs) Sleetjs is a litte indent-based language that compiles into HTML/XML.
