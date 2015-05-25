@@ -1,20 +1,20 @@
 # Sleet Handlebars
-Sleet Handlebars is [Sleet](https://github.com/JacoKoo/sleetjs) extension that compiles Sleet file to
-[Handlebars](http://handlebarsjs.com) template.
+Sleet Handlebars 是 [Sleet](https://github.com/JacoKoo/sleetjs) 的一个扩展，用于把 Sleet
+代码编译成 [Handlebars](http://handlebarsjs.com) 模板
 
-[中文文档](https://github.com/JacoKoo/sleet-handlebars/blob/master/README.cn.md)
+## 相关资源
+* [Sleet](https://github.com/JacoKoo/sleetjs) Sleetjs 是一种把代码编译成 HTML/XML 的语言
+* [Atom-Sleet](https://github.com/JacoKoo/atom-sleet) Sleet 与 Sleet-Handlebars 在
+  [Atom](https://atom.io) 编辑器里的插件(包括语法高亮、保存时编译、预览等功能)
+* [Handlebars-Sleet](https://github.com/JacoKoo/handlebars-sleet) 用于把已有的
+  HTML/HBS(Handlebars 模板) 转换成 Sleet 文件
 
-## Resources
-* [Sleet](https://github.com/JacoKoo/sleetjs) Sleetjs is a litte indent-based language that compiles into HTML/XML.
-* [Atom-Sleet](https://github.com/JacoKoo/atom-sleet) Sleet and Sleet Handlebars plugin(Syntax highlight, Compile on save, Preview) for [Atom](https://atom.io).
-* [Handlebars-Sleet](https://github.com/JacoKoo/handlebars-sleet) Convert exist HTML / HBS(Handlebars template) files to Sleet
-
-## Installation
+## 安装
 ```
 npm install -g sleet-handlebars
 ```
 
-## Command Line Usage
+## 命令行用法
 
 ```
 $ sleet-handlebars -h
@@ -33,15 +33,15 @@ Options:
   -h, --help                 Show this message
 ```
 
-Sleet handlebars have five extra options compare to Sleet.
+与 Sleet 命令行相比，Sleet-Handlebar的命令行多了5个参数
 
-`-p`, `-a` and `-c` are used to precompile handlebars template.
+`-p`, `-a` 与 `-c` 用来预编译 Handlebars 的模板文件
 
-`-b` and `-i` are used to tell sleet-handlebars what tags are treated as
-handlebars helpers.
+`-b` 与 `-i` 用来指明哪些标记(Tag)是自定义的Handlebars Helper
 
-**Block helper** is a helper that needs a starting tag and a paired closing tag. And
-it could have a inside `{{else}}`. e.g.
+所谓的 **Block helper** 是那种有开始标记与结束标记的 Helper, 并且在它内部可以有一个 `{{else}}` 标记.
+
+例如：
 ```handlebars
 {{#if}}
     something
@@ -50,17 +50,19 @@ it could have a inside `{{else}}`. e.g.
 {{/if}}
 ```
 
-**Inline block** helpers have neither starting tag nor closing tag. They also don't
-have else tag. e.g.
+所谓的 **Inline block helper** 不需要开始结束标记的那种 Helper.
+
+例如：
 ```handlebars
 {{fullname person}}
 {{{fullname person}}}
 ```
 
-## Handlebars Expressions In Text
+## 文本中的 Handlebars 表达式
 
-You can use `echo` to compose a handlebars expression. It compiles unquoted
-attribute name as handlebars expression.
+在文本中， 可以用 `echo` 标记来写 Handlebars表达式. 这个标记把没有用引号引起来的属性当成表达式
+
+例如:
 
 ```sleet
 a > echo(name)
@@ -76,7 +78,7 @@ p
     echo(firstName)
     echo(lastName)
 ```
-compiles to
+会编译成:
 ```handlebars
 <a>{{name}}</a>
 {{#if name}}
@@ -92,28 +94,31 @@ My name is {{firstName}} {{lastName}}
 </p>
 ```
 
-## Handlebars Expressions In Html Attributes
+## HTML 属性里的 Handlebars 表达式
 
-Sleet-handlebars consider unquoted string value as Handlebars Expression.
+所有没有被引号引起来的属性值都会被当作表达式
+
+例如:
 ```sleet
 ul(class=className)
     li > a(id=id href='static/images/' + imagePath) Preview
 ```
-compiles to
+会编译为:
 ```handlebars
 <ul class="{{className}}">
     <li><a id="{{id}}" href="static/images/{{imagePath}}">Preview</a></li>
 </ul>
 ```
 
-Each attribute group could have a qualifier followed. Currently only `if` and
-`unless` supported.
+所有的属性组后面都可以跟一个 `限定符`, 目前只支持 `if` 与 `unless`
+
+例如:
 ```sleet
 li(class='item')(class='active')&if(active)
     a(href='static/images/' + imagePath)&if(imagePath) Preview
 li(class='inactive')&unless(active) hello
 ```
-compiles to
+会编译为:
 ```handlebars
 <li class="item {{#if active}}active{{/if}}">
     <a {{#if imagePath}} href="static/images/{{imagePath}}"{{/if}}>Preview</a>
@@ -123,9 +128,10 @@ compiles to
 
 ## Block Helpers
 
-There are four buildin block helpers `if`, `unless`, `each`, `with`. Just like
-normal html tags, they don't need any brace.
+内置的 `Block Helper` 一共有四个，分别是: `if`, `unless`, `each`, `with`.
+它们的写法跟普通的 HTML 标记的写法没有区别, 不用像 Handlebars 里一样用两个大括号包起来.
 
+例如:
 ```sleet
 if(links)
     .list-group
@@ -140,7 +146,7 @@ helper(data 'string' 1 hash='string' hash2=data)
 else
     h2 else content
 ```
-use `sleet-handlebars -b helper` to compile it to
+用 `sleet-handlebars -b helper`(指定 helper 是一个`block helper`) 来编译它，将会编译为:
 ```handlebars
 {{#if links}}
     <div class="list-group">
@@ -162,12 +168,13 @@ use `sleet-handlebars -b helper` to compile it to
 
 ## Inline Block Helpers
 
-There are not any buildin inline block helpers. You should use `-i` options to
-specify them.
+在 Sleet-Handlebars 里面，并没有内置的 `Inline block helper`, 你可以用 `-i` 选项来指定
+哪些标记是 `Inline block helper`.
 
-You could prefix a inline block helper with one `@` to compose a three brace
-surrounded helper.
+你可以在 `inline block helper` 前加上一个 `@`来表明这个表达式不需要 HTML 转码(与 Handlebars里
+    的3个大括号包起来是一样的效果)
 
+例如:
 ```sleet
 fullname(person)
 date(createTime 'yyyy-MM-dd')
@@ -175,7 +182,8 @@ date(createTime 'yyyy-MM-dd')
 @fullname(person)
 @date(createTime 'yyyy-MM-dd')
 ```
-use `sleet-handlebars -i fullname,date` to compile it to
+用 `sleet-handlebars -i fullname,date`(指定 `fullname` 与 `date`是 `inline block help`)
+来编译它，将会编译为:
 
 ```handlebars
 {{fullname person}}
