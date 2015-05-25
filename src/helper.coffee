@@ -49,14 +49,17 @@ exports.getCompileOptions = (options = {}) ->
 exports.handlebarsPrecompile = (input, options = {}) ->
     output = Handlebars.precompile input
     if options.amd
-        wrapAmd output
+        wrapAmd output, options
     else if options.commonjs
-        wrapCommonJs output, options.commonjs
+        wrapCommonJs output, options.commonjs, options
     else
-        wrap output, options.name
+        wrap output, options.name, options
 
-wrapAmd = (input) ->
-    "define(['handlebars.runtime'], function (H){ return H.template(#{input}); });"
+wrapAmd = (input, options) -> """
+    define(['handlebars.runtime'], function (Handlebars){
+        var H = Handlebars['default'], templates = Handlebars.templates = Handlebars.templates || {}
+        return templates['#{options.filename}'] = H.template(#{input});
+    });"""
 
 wrapCommonJs = (input, module) ->
     "var H = require('#{module}'); module.exports = H.template(#{input});"

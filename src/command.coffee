@@ -45,7 +45,7 @@ exports.run = ->
     argv.compileOptions = getCompileOptions {blocks, inlineBlocks}
     argv.compileOptions.transform = (text, file) ->
         if argv.a
-            handlebarsPrecompile text, amd: true
+            handlebarsPrecompile text, amd: true, filename: path.basename(file)
         else if argv.c
             handlebarsPrecompile text, commonjs: argv.c
         else if argv.p
