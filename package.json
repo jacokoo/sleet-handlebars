@@ -1,6 +1,6 @@
 {
   "name": "sleet-handlebars",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Sleet extension for Handlebars",
   "main": "lib/sleet-handlebars",
   "author": "Jaco Koo <jaco.koo@guyong.in>",
