@@ -1,3 +1,5 @@
+#! handlebars block=compare
+
 if(active)
     p active
 else

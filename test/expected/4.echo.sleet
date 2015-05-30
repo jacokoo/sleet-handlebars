@@ -1,3 +1,5 @@
+#! handlebars
+
 echo(name)
 echo(name "name")
 @echo(name)

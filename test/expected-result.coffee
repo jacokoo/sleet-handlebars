@@ -1,7 +1,8 @@
 {expect} = require 'chai'
 fs = require 'fs'
 path = require 'path'
-{compile} = require '../lib/sleet-handlebars'
+{compile} = require 'sleet'
+{getDefaultExtension, overrideContext} = require '../lib/sleet-handlebars'
 
 base = path.resolve 'test'
 
@@ -22,11 +23,13 @@ executeFile = (dir, file) ->
     it "Compile result of [#{file}] should equals to the content of [#{expectedName}]", ->
         compiled = compileIt path.join(dir, file)
         expected = fs.readFileSync(path.join(dir, expectedName), 'utf8').trim() # remove the trailing spaces
-        expect(compiled).to.equal(expected)
+        expect(compiled.content).to.equal(expected)
 
 compileIt = (input) ->
     content = fs.readFileSync(input, 'utf8')
-    compile content, filename: input, blocks: ['compare'], inlineBlocks: ['date']
+    compile content, filename: input, handlebars:
+        getDefaultExtension: getDefaultExtension
+        overrideContext: overrideContext
 
 describe 'Expected Result', ->
     walkFolder './test/expected'

@@ -1,3 +1,5 @@
+#! handlebars
+
 a(a=a b='a' + b)
 
 a(class = 'a' + 'b' + c + d + 'e')

@@ -1,3 +1,5 @@
+#! handlebars inline=date
+
 date(a 1 true)
 @date(a 1 true 'a')
 

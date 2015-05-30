@@ -3,9 +3,6 @@
   "version": "0.0.10",
   "description": "Sleet extension for Handlebars",
   "main": "lib/sleet-handlebars",
-  "bin": {
-    "sleet-handlebars": "bin/sleet-handlebars"
-  },
   "author": "Jaco Koo <jaco.koo@guyong.in>",
   "license": "MIT",
   "repository": {
@@ -13,9 +10,7 @@
     "url": "https://github.com/JacoKoo/sleet-handlebars.git"
   },
   "dependencies": {
-    "handlebars": "^3.0.0",
-    "sleet": "0.0.x",
-    "yargs": "^3.4.5"
+    "sleet": "0.0.x"
   },
   "devDependencies": {
     "chai": "^2.2.0",
