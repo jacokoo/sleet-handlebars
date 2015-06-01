@@ -14,30 +14,41 @@ Sleet Handlebars 是 [Sleet](https://github.com/JacoKoo/sleetjs) 的一个扩展
 npm install -g sleet-handlebars
 ```
 
-## 命令行用法
+## 声明
 
+可以在`sleet`文件的第一行声明这个文件用`sleet-handlebars`来编译:
 ```
-$ sleet-handlebars -h
-/usr/local/bin/sleet-handlebars [options] input.st [input2.st...]
-
-Options:
-  -b, --block-helper         Block helpers. Separated by comma(,)
-  -i, --inline-block-helper  Inline block helpers. Separated by comma(,)
-  -p, --precompile           Precompile the output
-  -a, --amd                  Precompile use AMD style
-  -c, --commonjs             Precompile use CommonJs style
-  -o, --output               The output directory
-  -e, --extension            The file extension of output file
-  -w, --watch                Watch file changes
-  -v, --version              Show the version number
-  -h, --help                 Show this message
+#!handlebars
 ```
 
-与 Sleet 命令行相比，Sleet-Handlebar的命令行多了5个参数
+输出文件的默认扩展名为:`.hbs`, 你可以在声明中更改扩展名, 如改为`.html`:
+```
+#!handlebars html
+```
 
-`-p`, `-a` 与 `-c` 用来预编译 Handlebars 的模板文件
+`sleet-handlebars` 有两个参数可以在声明中配置: `block`与`inline`
+- `block` 用来指定 Handlebars Block Helper
+- `inline` 用来指定 Handlebars Inline Helper
 
-`-b` 与 `-i` 用来指明哪些标记(Tag)是自定义的Handlebars Helper
+```
+#!handlebars block=layout,view inline=date,shortDate
+```
+
+也可以通过 `package.json` 文件来配置这些参数:
+```json
+{
+    ...
+    "dependencies": {
+        ...
+    },
+    "sleet": {
+        "handlebars": {
+            "block": ["layout", "view"],
+            "inline": ["date", "shortDate"]
+        }
+    }
+}
+```
 
 所谓的 **Block helper** 是那种有开始标记与结束标记的 Helper, 并且在它内部可以有一个 `{{else}}` 标记.
 
@@ -50,7 +61,7 @@ Options:
 {{/if}}
 ```
 
-所谓的 **Inline block helper** 不需要开始结束标记的那种 Helper.
+所谓的 **Inline helper** 不需要开始结束标记的那种 Helper.
 
 例如：
 ```handlebars
@@ -65,6 +76,8 @@ Options:
 例如:
 
 ```sleet
+#!handlebars
+
 a > echo(name)
 if(name)
     echo('Hello ' name '!')
@@ -100,6 +113,8 @@ My name is {{firstName}} {{lastName}}
 
 例如:
 ```sleet
+#!handlebars
+
 ul(class=className)
     li > a(id=id href='static/images/' + imagePath) Preview
 ```
@@ -114,6 +129,8 @@ ul(class=className)
 
 例如:
 ```sleet
+#!handlebars
+
 li(class='item')(class='active')&if(active)
     a(href='static/images/' + imagePath)&if(imagePath) Preview
 li(class='inactive')&unless(active) hello
@@ -133,6 +150,8 @@ li(class='inactive')&unless(active) hello
 
 例如:
 ```sleet
+#!handlebars block=helper
+
 if(links)
     .list-group
         each(links)
@@ -146,7 +165,7 @@ helper(data 'string' 1 hash='string' hash2=data)
 else
     h2 else content
 ```
-用 `sleet-handlebars -b helper`(指定 helper 是一个`block helper`) 来编译它，将会编译为:
+将会编译为:
 ```handlebars
 {{#if links}}
     <div class="list-group">
@@ -168,22 +187,22 @@ else
 
 ## Inline Block Helpers
 
-在 Sleet-Handlebars 里面，并没有内置的 `Inline block helper`, 你可以用 `-i` 选项来指定
-哪些标记是 `Inline block helper`.
+在 Sleet-Handlebars 里面，并没有内置的 `Inline helper`.
 
-你可以在 `inline block helper` 前加上一个 `@`来表明这个表达式不需要 HTML 转码(与 Handlebars里
+你可以在 `inline helper` 前加上一个 `@`来表明这个表达式不需要 HTML 转码(与 Handlebars里
     的3个大括号包起来是一样的效果)
 
 例如:
 ```sleet
+#!handlebars inline=fullname,date
+
 fullname(person)
 date(createTime 'yyyy-MM-dd')
 
 @fullname(person)
 @date(createTime 'yyyy-MM-dd')
 ```
-用 `sleet-handlebars -i fullname,date`(指定 `fullname` 与 `date`是 `inline block help`)
-来编译它，将会编译为:
+将会编译为:
 
 ```handlebars
 {{fullname person}}

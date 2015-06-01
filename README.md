@@ -14,31 +14,41 @@ Sleet Handlebars is [Sleet](https://github.com/JacoKoo/sleetjs) extension that c
 npm install -g sleet-handlebars
 ```
 
-## Command Line Usage
+## Declaration
 
+To declare to use sleet-handlebars to compile the sleet file:
 ```
-$ sleet-handlebars -h
-/usr/local/bin/sleet-handlebars [options] input.st [input2.st...]
-
-Options:
-  -b, --block-helper         Block helpers. Separated by comma(,)
-  -i, --inline-block-helper  Inline block helpers. Separated by comma(,)
-  -p, --precompile           Precompile the output
-  -a, --amd                  Precompile use AMD style
-  -c, --commonjs             Precompile use CommonJs style
-  -o, --output               The output directory
-  -e, --extension            The file extension of output file
-  -w, --watch                Watch file changes
-  -v, --version              Show the version number
-  -h, --help                 Show this message
+#!handlebars
 ```
 
-Sleet handlebars have five extra options compare to Sleet.
+By default the extension of output file is `.hbs`, you can change it to `.html` by:
+```
+#!handlebars html
+```
 
-`-p`, `-a` and `-c` are used to precompile handlebars template.
+There are two options can be specified: `block` and `inline`.
+- `block` is used to indicate handlebars block helpers
+- `inline` is used to indicate inline handlebars helpers
 
-`-b` and `-i` are used to tell sleet-handlebars what tags are treated as
-handlebars helpers.
+```
+#!handlebars block=layout,view inline=date,shortDate
+```
+
+You can also config then via `package.json`:
+```json
+{
+    ...
+    "dependencies": {
+        ...
+    },
+    "sleet": {
+        "handlebars": {
+            "block": ["layout", "view"],
+            "inline": ["date", "shortDate"]
+        }
+    }
+}
+```
 
 **Block helper** is a helper that needs a starting tag and a paired closing tag. And
 it could have a inside `{{else}}`. e.g.
@@ -50,7 +60,7 @@ it could have a inside `{{else}}`. e.g.
 {{/if}}
 ```
 
-**Inline block** helpers have neither starting tag nor closing tag. They also don't
+**Inline Helper** helpers have neither starting tag nor closing tag. They also don't
 have else tag. e.g.
 ```handlebars
 {{fullname person}}
@@ -63,6 +73,8 @@ You can use `echo` to compose a handlebars expression. It compiles unquoted
 attribute name as handlebars expression.
 
 ```sleet
+#!handlebars
+
 a > echo(name)
 if(name)
     echo('Hello ' name '!')
@@ -96,6 +108,8 @@ My name is {{firstName}} {{lastName}}
 
 Sleet-handlebars consider unquoted string value as Handlebars Expression.
 ```sleet
+#!handlebars
+
 ul(class=className)
     li > a(id=id href='static/images/' + imagePath) Preview
 ```
@@ -109,6 +123,8 @@ compiles to
 Each attribute group could have a qualifier followed. Currently only `if` and
 `unless` supported.
 ```sleet
+#!handlebars
+
 li(class='item')(class='active')&if(active)
     a(href='static/images/' + imagePath)&if(imagePath) Preview
 li(class='inactive')&unless(active) hello
@@ -123,10 +139,12 @@ compiles to
 
 ## Block Helpers
 
-There are four buildin block helpers `if`, `unless`, `each`, `with`. Just like
+There are four builtin block helpers `if`, `unless`, `each`, `with`. Just like
 normal html tags, they don't need any brace.
 
 ```sleet
+#!handlebars block=helper
+
 if(links)
     .list-group
         each(links)
@@ -140,7 +158,7 @@ helper(data 'string' 1 hash='string' hash2=data)
 else
     h2 else content
 ```
-use `sleet-handlebars -b helper` to compile it to
+compiles to:
 ```handlebars
 {{#if links}}
     <div class="list-group">
@@ -160,22 +178,23 @@ use `sleet-handlebars -b helper` to compile it to
 {{/helper}}
 ```
 
-## Inline Block Helpers
+## Inline Helpers
 
-There are not any buildin inline block helpers. You should use `-i` options to
-specify them.
+There are not any builtin inline helpers.
 
-You could prefix a inline block helper with one `@` to compose a three brace
-surrounded helper.
+Once you specified a inline helper, you could prefix a inline helper with a `@`
+to compose a three brace surrounded helper.
 
 ```sleet
+#!handlebars inline=fullname,date
+
 fullname(person)
 date(createTime 'yyyy-MM-dd')
 
 @fullname(person)
 @date(createTime 'yyyy-MM-dd')
 ```
-use `sleet-handlebars -i fullname,date` to compile it to
+compiles to:
 
 ```handlebars
 {{fullname person}}
