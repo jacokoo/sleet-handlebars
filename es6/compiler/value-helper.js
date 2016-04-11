@@ -1,7 +1,7 @@
 import { ValueCompiler } from 'sleet/lib/compiler/value';
 import { compileAttributes } from './util';
 
-export class HelperValueCompiler extends ValueCompiler {
+export class ValueHelperCompiler extends ValueCompiler {
     constructor (argumentCount) {
         super();
         this._arugmentCount = argumentCount;
