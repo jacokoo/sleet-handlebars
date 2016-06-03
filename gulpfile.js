@@ -9,13 +9,13 @@ gulp.task('clean', function(cb) {
 });
 
 gulp.task('lint', function() {
-    return gulp.src('es6/**/*.js')
+    return gulp.src('src/**/*.js')
         .pipe(eslint())
         .pipe(eslint.format());
 });
 
 gulp.task('build', ['clean', 'lint'], function() {
-    return gulp.src('es6/**/*.js')
+    return gulp.src('src/**/*.js')
         .pipe(babel({presets: ['es2015']}))
         .pipe(gulp.dest('lib'));
 });

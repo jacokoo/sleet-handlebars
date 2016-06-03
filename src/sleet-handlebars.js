@@ -11,6 +11,7 @@ export function getDefaultExtension () { return 'hbs'; }
 export function overrideContext (context, options, declaration) {
     context.registerCompiler('value.identifier', new ValueIdentifierCompiler());
     context.registerCompiler('setting.if', new BlockSettingCompiler());
+    context.registerCompiler('setting.unless', new BlockSettingCompiler());
     context.registerCompiler('value.helper', new ValueHelperCompiler(1));
     context.registerCompiler('tag.else', new ElseTagCompiler());
     context.registerCompiler('tag.if', new BlockTagCompiler());

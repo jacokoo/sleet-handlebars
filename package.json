@@ -1,6 +1,6 @@
 {
   "name": "sleet-handlebars",
-  "version": "0.0.11",
+  "version": "0.1.0",
   "description": "Sleet extension for Handlebars",
   "main": "lib/sleet-handlebars",
   "author": "Jaco Koo <jaco.koo@guyong.in>",
@@ -10,7 +10,7 @@
     "url": "https://github.com/JacoKoo/sleet-handlebars.git"
   },
   "dependencies": {
-    "sleet": "0.0.x"
+    "sleet": "0.1.x"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.6.0",
@@ -28,8 +28,6 @@
     "mocha": "^2.2.1"
   },
   "scripts": {
-    "pretest": "coffee -c test",
-    "test": "mocha --ui bdd test/",
-    "posttest": "find test -name \"*.js\" -delete"
+    "test": "mocha --ui bdd test/"
   }
 }
