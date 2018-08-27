@@ -4,16 +4,19 @@
     <p>inactive</p>
 {{/if}}
 {{#if active}}active
-{{else}}inactive
-{{/if}}
+{{else}}inactive{{/if}}
 <ul>
     {{#each items}}
-        <li>{{name}}</li>
+        <li>
+            {{name}}
+        </li>
     {{else}}
         no items
     {{/each}}
 </ul>
-<a>{{#unless completed}}not complete{{/unless}}</a>
+<a>
+    {{#unless completed}}not complete{{/unless}}
+</a>
 {{#compare status "eq" 1}}
     <p>status 1</p>
 {{else}}

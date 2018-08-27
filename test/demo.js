@@ -1,25 +1,8 @@
 const hs = require('../lib').plugin
 const {compile} = require('sleet')
 
-const input = `#! handlebars
-
-a(a=a b='a' + b)
-
-a(class = 'a' + 'b' + c + d + 'e')
-
-a(a=a)&if(active)
-
-a(a=a)&unless(active)
-
-a(a=a)&if(active)(b=b c='c' + c)
-
-a(a=a)&unless(active)(b=b c='c' + c)
-
-a(a=a b='b')&if(active)
-
-a(a=a class=a)&if(active)(class='b')
-
-img(src='/images/' + imagePath)
+const input = `#! handlebars inline=date
+a(a=(a))
 `
 
-console.log(compile(input, {plugins: {handlebars: hs}}).code)
+console.log(compile(input, {defaultPlugin: 'handlebars', plugins: {handlebars: hs}, ignoreSetting: false}).code)

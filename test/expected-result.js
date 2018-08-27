@@ -10,7 +10,7 @@ const base = path.resolve('test');
 
 function compileIt(input) {
     const content = fs.readFileSync(input, 'utf8');
-    return compile(content, {sourceFile: input, plugins: {handlebars: hs}});
+    return compile(content, {sourceFile: input, ignoreSetting: false, plugins: {handlebars: hs}});
 }
 
 function executeFile(dir, file) {
