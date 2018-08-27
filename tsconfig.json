@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "strictNullChecks": true,
+        "module": "commonjs",
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "target": "es6",
+        "outDir": "lib",
+        "noImplicitAny": true,
+        "declaration": true,
+        "moduleResolution": "node"
+    }
+}

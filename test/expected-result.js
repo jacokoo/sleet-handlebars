@@ -4,13 +4,13 @@ const expect = require('chai').expect;
 const fs = require('fs');
 const path = require('path');
 const compile = require('sleet').compile;
-const handlebars = require('../lib/sleet-handlebars');
+const hs = require('../lib').plugin;
 
 const base = path.resolve('test');
 
 function compileIt(input) {
     const content = fs.readFileSync(input, 'utf8');
-    return compile(content, {filename: input, handlebars});
+    return compile(content, {sourceFile: input, plugins: {handlebars: hs}});
 }
 
 function executeFile(dir, file) {
@@ -21,7 +21,7 @@ function executeFile(dir, file) {
         const compiled = compileIt(path.join(dir, file));
         const expected = fs.readFileSync(path.join(dir, expectedName), 'utf8');
 
-        expect(compiled.content).to.equal(expected);
+        expect(compiled.code).to.equal(expected);
     });
 }
 
