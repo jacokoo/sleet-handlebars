@@ -1,4 +1,6 @@
 import { TagCompiler } from 'sleet-html/lib/compilers/tag'
+import { EchoCompiler } from 'sleet-html/lib/compilers/other-tags'
+
 import { Context, SleetNode, SleetStack, Compiler, Tag } from 'sleet'
 import { BlockTagCompiler } from './block-tag'
 
@@ -8,8 +10,7 @@ export function compileTags (context: Context, tags: Tag[], stack: SleetStack, i
         const item = tags[i]
         const next = tags[i + 1]
         if (!next || next.name !== 'else') {
-            const co = context.compile(item, stack, indent)
-            if (co) co.mergeUp()
+            context.compileUp(item, stack, indent)
             i ++
             continue
         }
@@ -33,6 +34,18 @@ export class HandlebarsTagCompiler extends TagCompiler {
 
     content (context: Context) {
         if (this.selfClosing()) return
-        compileTags(context, this.tag.children, this.stack)
+        compileTags(context, this.node.children, this.stack)
+    }
+}
+
+export class AtEchoCompiler extends EchoCompiler {
+    static create (node: SleetNode, stack: SleetStack): Compiler | undefined {
+        if ((node as Tag).name === '@echo') return new AtEchoCompiler(node as Tag, stack)
+    }
+
+    compile (context: Context) {
+        const s = this.stack.last()!
+        s.note.noEscape = true
+        super.compile(context)
     }
 }

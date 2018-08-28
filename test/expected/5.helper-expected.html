@@ -1,0 +1,8 @@
+<foo>helper {{in}} {{inline text}}</foo>
+<foo>{{#if completed}}completed{{/if}</foo>
+<foo>{{#if active}}active{{else}}not active{{/if}</foo>
+<foo>{{#compare state "==" 1}}active{{else}}not active{{/compare}</foo>
+<bar bar="{{a}}{{b}}{{c}}"></bar>
+<bar class="{{a}} {{b}} completed"></bar>
+<bar bar="{{#if a}}{{a}}{{else}}{{b}}{{/if}"></bar>
+<bar bar="{{#compare a "==" 1}}{{a}}{{else}}b{{/compare}"></bar>

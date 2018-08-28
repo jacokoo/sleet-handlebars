@@ -1,9 +1,7 @@
 <a a="{{a}}" b="a{{b}}"></a>
 <a class="a b {{c}} {{d}} e"></a>
-<a {{#if active}}a="{{a}}"{{/if}}></a>
-<a {{#unless active}}a="{{a}}"{{/unless}}></a>
-<a {{#if active}}a="{{a}}"{{/if}} b="{{b}}" c="c{{c}}"></a>
-<a {{#unless active}}a="{{a}}"{{/unless}} b="{{b}}" c="c{{c}}"></a>
-<a {{#if active}}a="{{a}}" b="b"{{/if}}></a>
-<a {{#if active}}a="{{a}}" class="{{a}}"{{/if}} class="b"></a>
+<a a="{{#if active}}{{a}}{{/if}"></a>
+<a a="{{#unless active}}{{a}}{{/unless}"></a>
+<a a="{{#if active}}{{a}}{{/if}" b="{{b}}" c="c{{c}}"></a>
+<a a="{{#unless active}}{{a}}{{/unless}" b="{{b}}" c="c{{c}}"></a>
 <img src="/images/{{imagePath}}">

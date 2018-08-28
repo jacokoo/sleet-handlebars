@@ -1,0 +1,11 @@
+#! handlebars helper=compare:3
+
+foo helper $in $inline(text)
+foo $if(completed 'completed')
+foo $if(active 'active' 'not active')
+foo $compare(state == 1 'active' 'not active')
+
+bar(bar=(a b c))
+bar(class=(a b 'completed'))
+bar(bar=if(a a b))
+bar(bar=compare(a == 1, a 'b'))

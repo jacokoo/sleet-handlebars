@@ -4,16 +4,12 @@ a(a=a b='a' + b)
 
 a(class = 'a' + 'b' + c + d + 'e')
 
-a(a=a)&if(active)
+a(a=if(active a))
 
-a(a=a)&unless(active)
+a(a=unless(active a))
 
-a(a=a)&if(active)(b=b c='c' + c)
+a(a=if(active a))(b=b c='c' + c)
 
-a(a=a)&unless(active)(b=b c='c' + c)
-
-a(a=a b='b')&if(active)
-
-a(a=a class=a)&if(active)(class='b')
+a(a=unless(active a))(b=b c='c' + c)
 
 img(src='/images/' + imagePath)

@@ -1,44 +1,34 @@
 import { TagCompiler } from 'sleet-html/lib/compilers/tag'
 import { SleetNode, Compiler, Tag, SleetStack, Context, compile } from 'sleet'
 
-export const blocks = ['if', 'each', 'unless', 'with']
-
 export class BlockTagCompiler extends TagCompiler {
     static create (node: SleetNode, stack: SleetStack): Compiler | undefined {
         const tag = node as Tag
-        if (tag.name && blocks.indexOf(tag.name) !== -1) return new BlockTagCompiler(node as Tag, stack)
+        if (tag.name && stack.note('blocks').indexOf(tag.name) !== -1) return new BlockTagCompiler(node as Tag, stack)
     }
-
-    openStartMark = '{{#'
-    openEndMark = '}}'
-    closeStartMark = '{{/'
-    closeEndMark = '}}'
 
     compile (context: Context, elseNode?: SleetNode) {
         this.tagOpen(context)
         this.content(context)
         if (elseNode) {
             context.eol().indent().push('{{else}}')
-            const c = context.compile(elseNode, this.stack, -1)
-            if (c) c.mergeUp()
+            context.compileUp(elseNode, this.stack, -1)
         }
         this.tagClose(context)
     }
 
     openStart (context: Context) {
-        context.eol().indent().push(this.openStartMark)
-        context.push(this.tag.name || 'div')
+        context.eol().indent().push('{{#').push(this.node.name!)
     }
 
     openEnd (context: Context) {
-        context.push(this.openEndMark)
+        context.push('}}')
     }
 
     tagClose (context: Context) {
         if (this.selfClosing()) return
         if (context.haveIndent) context.eol().indent()
-        context.push(this.closeStartMark)
-        context.push(this.tag.name || 'div').push(this.closeEndMark)
+        context.push(`{{/${this.node.name!}}}`)
     }
 }
 

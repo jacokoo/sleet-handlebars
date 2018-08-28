@@ -1,24 +1,22 @@
 import { AttributeCompiler } from 'sleet-html/lib/compilers/attribute'
-import {blocks} from './block-tag'
 import {
     SleetNode, SleetStack, Compiler, Attribute, Context, NodeType, Tag,
     StringValue, IdentifierValue, AttributeGroup, Setting, AbstractCompiler, Helper
 } from 'sleet'
-import { inlines } from './inline-tag'
 
 const isInDynamic = (stack: SleetStack): boolean => {
     if (stack.last(NodeType.Setting)) return true
     if (stack.last(NodeType.TransformValue)) return true
     const h = stack.last(NodeType.Helper)
-    if (h && (h.node as Helper).name) return true
+    if (h && (h.node as Helper).name && !h.note.content) return true
 
     const s = stack.last(NodeType.Tag)
     if (!s || !(s.node as Tag).name) return false
     const tag = s.node as Tag
     if (!tag.name) return false
-    if (blocks.indexOf(tag.name) !== -1) return true
-    if (inlines.indexOf(tag.name) !== -1) return true
-    if (tag.name.slice(0, 1) === '@' && inlines.indexOf(tag.name.slice(1)) !== -1) return true
+    if (stack.note('blocks').indexOf(tag.name) !== -1) return true
+    if (stack.note('inlines').indexOf(tag.name) !== -1) return true
+    if (tag.name.slice(0, 1) === '@' && stack.note('inlines').indexOf(tag.name.slice(1)) !== -1) return true
     return false
 }
 
@@ -54,7 +52,8 @@ export class IdentifierValueCompiler extends AbstractCompiler<IdentifierValue> {
     }
 
     compile (context: Context) {
-        context.push(`{{${this.node.value}}}`)
+        const s = this.stack.last(NodeType.Tag)!
+        context.push(s.note.noEscape ? `{{{${this.node.value}}}}` : `{{${this.node.value}}}`)
     }
 }
 
@@ -95,15 +94,19 @@ export class GroupSettingCompiler implements Compiler {
         if (this.node.attributes.length) context.push(' ')
         this.node.attributes.forEach((it, idx) => {
             const sub = context.compile(it, stack)
-            if (idx) context.push(' ')
-            if (sub) sub.mergeUp()
+            if (sub) {
+                if (idx) context.push(' ')
+                sub.mergeUp()
+            }
         })
         context.push('}}')
 
         group.attributes.forEach((it, idx) => {
             const sub = context.compile(it, this.stack)
-            if (idx) context.push(' ')
-            if (sub) sub.mergeUp()
+            if (sub) {
+                if (idx) context.push(' ')
+                sub.mergeUp()
+            }
         })
         context.push(`{{/${this.node.name}}}`)
     }
