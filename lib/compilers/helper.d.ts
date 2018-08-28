@@ -1,4 +1,4 @@
-import { AbstractCompiler, Helper, Context, NodeType, SleetNode, SleetStack, Compiler, HelperAttribute } from 'sleet';
+import { AbstractCompiler, Helper, Context, NodeType, SleetNode, SleetStack, Compiler, HelperAttribute, Transformer, TransformValue } from 'sleet';
 export declare class HelperCompiler extends AbstractCompiler<Helper> {
     static type: NodeType;
     static create(node: SleetNode, stack: SleetStack): Compiler | undefined;
@@ -10,4 +10,14 @@ export declare class HelperAttributeCompiler extends AbstractCompiler<HelperAttr
     static type: NodeType;
     static create(node: SleetNode, stack: SleetStack): Compiler | undefined;
     compile(context: Context): void;
+}
+export declare class TransformCompiler extends AbstractCompiler<TransformValue> {
+    static type: NodeType;
+    static create(node: SleetNode, stack: SleetStack): Compiler | undefined;
+    compile(context: Context): void;
+}
+export declare class TransformerCompiler extends AbstractCompiler<Transformer> {
+    static type: NodeType;
+    static create(node: SleetNode, stack: SleetStack): Compiler | undefined;
+    compile(context: Context, ...next: SleetNode[]): void;
 }

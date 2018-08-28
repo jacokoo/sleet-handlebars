@@ -1,4 +1,4 @@
-import { AbstractCompiler, Helper, Context, NodeType, SleetNode, SleetStack, Compiler, HelperAttribute, Transformer, TransformValue } from 'sleet'
+import { AbstractCompiler, Helper, Context, NodeType, SleetNode, SleetStack, Compiler, HelperAttribute, Transformer, TransformValue, Attribute } from 'sleet'
 
 export class HelperCompiler extends AbstractCompiler<Helper> {
     static type = NodeType.Helper
@@ -15,9 +15,13 @@ export class HelperCompiler extends AbstractCompiler<Helper> {
 
     compile (context: Context) {
         if (!this.node.name) {
-            const it = this.node.attributes[0]
-            const c = context.compile(it, this.stack)
-            if (c) c.mergeUp()
+            const attr = this.stack.last(NodeType.Attribute)
+            const needSpace = attr && (attr.node as Attribute).name === 'class'
+            this.node.attributes.forEach((it, idx) => {
+                const c = context.compile(it, this.stack)
+                if (idx && needSpace) context.push(' ')
+                if (c) c.mergeUp()
+            })
             return
         }
     }
@@ -42,10 +46,11 @@ export class TransformCompiler extends AbstractCompiler<TransformValue> {
     }
 
     compile (context: Context) {
-        const ts = this.node.transformers.slice(1)
-        ts.unshift(this.node.value)
-        const sub = context.create(this.node.transformers[0], this.stack)
-        if (!sub) return
+        let cs = this.node.transformers.slice(0)
+        const i = cs.findIndex(it =>
+            it.type !== NodeType.IdentifierValue && it.type !== NodeType.TransformValue)
+        if (i !== -1) cs = cs.slice(0, i)
+
 
     }
 }
